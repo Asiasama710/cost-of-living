@@ -1,6 +1,6 @@
 package interactor
 
-import FakeData
+import FakeDataSource
 import model.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -16,12 +16,12 @@ import kotlin.test.assertTrue
 internal class GetCityHasCheapestInternetConnectionInteractorTest {
 
     private lateinit var getCityHasCheapestInternetConnection: GetCityHasCheapestInternetConnectionInteractor
-    private lateinit var fakeData: FakeData
+    private lateinit var fakeData: FakeDataSource
 
 
     @BeforeAll
     fun setup() {
-        fakeData = FakeData()
+        fakeData = FakeDataSource()
         getCityHasCheapestInternetConnection = GetCityHasCheapestInternetConnectionInteractor(fakeData)
     }
 

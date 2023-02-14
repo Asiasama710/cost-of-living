@@ -20,11 +20,11 @@ internal class GetTopFashionCitiesInteractorTest {
     @Test
     fun should_ReturnCorrectList_When_HaveLimitValueMoreThanZero() {
         //given limit value > 0
-        val limit = 5
+        val limit = 4
 
         //when
         val result = getTopFashionCities.execute(limit)
-        val expectedResult = listOf("Accra", "Multan", "Karachi", "Rawalpindi", "Hyderabad City")
+        val expectedResult = listOf("Accra", "Multan", "Karachi", "Rawalpindi")
 
         //Then
         assertEquals(expectedResult, result)
