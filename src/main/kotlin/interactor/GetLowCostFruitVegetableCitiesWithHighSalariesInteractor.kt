@@ -18,7 +18,7 @@ class GetLowCostFruitVegetableCitiesWithHighSalariesInteractor(
             .take(LIMIT)
     }
     private fun excludeNullSalaries(city: CityEntity): Boolean {
-        return city.averageMonthlyNetSalaryAfterTax != null
+        return city.averageMonthlyNetSalaryAfterTax != null && city.cityName.trim() !=""
     }
     private fun excludeNullFruitVegPrices(fruitAndVegetablesPrices: FruitAndVegetablesPrices): Float {
         var total = DEFAULT_VALUE

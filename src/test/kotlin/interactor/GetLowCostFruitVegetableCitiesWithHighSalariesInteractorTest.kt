@@ -1,6 +1,6 @@
 package interactor
 
-import FakeData
+import FakeDataSource
 import model.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -9,16 +9,19 @@ import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
+
     private lateinit var getLowCostFruitVegetableCitiesWithHighSalaries: GetLowCostFruitVegetableCitiesWithHighSalariesInteractor
-    private lateinit var fakeData: FakeData
+    private lateinit var fakeDataSource: FakeDataSource
     private lateinit var expectedResult: List<CityEntity>
 
     @BeforeAll
     fun setup() {
-        fakeData = FakeData()
+        fakeDataSource = FakeDataSource()
+
         getLowCostFruitVegetableCitiesWithHighSalaries =
-            GetLowCostFruitVegetableCitiesWithHighSalariesInteractor(fakeData)
-        expectedResult = fakeData.getAllCitiesData().filter(::cityName).sortedBy { it.cityName }
+            GetLowCostFruitVegetableCitiesWithHighSalariesInteractor(fakeDataSource)
+
+        expectedResult = fakeDataSource.getAllCitiesData().filter(::cityName).sortedBy { it.cityName }
     }
 
 
@@ -31,6 +34,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         assertEquals(expectedResult, result)
     }
 
+
     @Test
     fun should_returnFalse_when_theNameOfCityIsNull() {
         // when
@@ -39,6 +43,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         //then
         assertFalse(result.any { it.cityName == "" })
     }
+
 
     @Test
     fun should_returnTen_when_theSizeOfTheListIsTen() {
@@ -49,6 +54,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         assertEquals(10, result.size)
     }
 
+
     @Test
     fun should_returnFalse_when_salaryIsNull() {
         // when
@@ -57,6 +63,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         //then
         assertFalse(result.any { it.averageMonthlyNetSalaryAfterTax == null })
     }
+
 
     @Test
     fun should_returnFalse_when_salaryIsZero() {
@@ -67,6 +74,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         assertFalse(result.any { it.averageMonthlyNetSalaryAfterTax == 0f })
     }
 
+
     @Test
     fun should_returnFalse_when_salaryIsNegative() {
         // when
@@ -76,10 +84,15 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         assertFalse(result.any { it.averageMonthlyNetSalaryAfterTax!! < 0f })
     }
 
+
     private fun cityName(city: CityEntity): Boolean {
         return city.cityName == "Giza" || city.cityName == "Rawalpindi" || city.cityName == "Alexandria"
                 || city.cityName == "Hyderabad City" || city.cityName == "Karachi" || city.cityName == "Lahore"
-                || city.cityName == "Multan" || city.cityName == "Tanta" || city.cityName == "Accra" || city.cityName == "Dushanbe"
+                || city.cityName == "Multan" || city.cityName == "Tanta" || city.cityName == "Accra" ||
+                city.cityName == "Dushanbe" || city.cityName == "Syracuse" ||city.cityName == "Asheville" ||
+                city.cityName == "Baltimore" || city.cityName == "Richmond" || city.cityName == "El Paso" ||
+                city.cityName == "Mecca" || city.cityName == "Tulsa" || city.cityName == "Wichita" ||
+                city.cityName == "`Ajman" || city.cityName == "Augusta"
     }
 
 
