@@ -1,7 +1,7 @@
 package interactor
 
 import model.CityEntity
-import model.MealsPrices
+
 import kotlin.String as String
 
 class GetCityNameThatMatchManagerExpectations (
@@ -15,7 +15,7 @@ class GetCityNameThatMatchManagerExpectations (
             .map { it.cityName }
     }
 
-     fun excludeNullMealsPricesAndLowQualityData(city: CityEntity): Boolean {
+     private fun excludeNullMealsPricesAndLowQualityData(city: CityEntity): Boolean {
         return  city.mealsPrices.mealAtMcDonaldSOrEquivalent != null
                 && city.mealsPrices.mealInexpensiveRestaurant != null
                 && city.mealsPrices.mealFor2PeopleMidRangeRestaurant != null && city.dataQuality
