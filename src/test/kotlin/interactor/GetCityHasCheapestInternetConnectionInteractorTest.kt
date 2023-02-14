@@ -20,7 +20,7 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
 
     companion object {
         @JvmStatic
-        private fun valuesForInternetPriceAndSalary(): Stream<Arguments> {
+        private fun valuesForInternetPriceAndSalary(): Stream<Arguments>    {
             return Stream.of(
                 Arguments {
                     arrayOf(-50.0f, -2500.0f)
@@ -48,6 +48,7 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
                 },
             )
         }
+
     }
 
     @BeforeAll
@@ -57,8 +58,8 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
     }
 
     @Test
-    fun should_ReturnTrue_when_CityInstanceHaveACorrectValueForInternetAndSalary() {
-        //given city instance with not null value for internet and salary
+    fun should_ReturnTrue_when_CityHaveCorrectValueForInternetAndSalary() {
+        //given city instance with correct value for internet and salary
         val city = fakeData.getAllCitiesData()[0]
 
         //when scan the city instance have a correct values for internet and salary
@@ -71,28 +72,41 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
 
     @ParameterizedTest
     @MethodSource("valuesForInternetPriceAndSalary")
-    fun should_ReturnFalse_when_CityInstanceHaveAIncorrectData(internetPrice: Float?, salary: Float?) {
+    fun should_ReturnFalse_when_CityHaveAIncorrectInternetPriceAndSalary(internetPrice: Float?, salary: Float?) {
+        //given city with incorrect data for internetPrice or salary
+        val city = CityEntity(cityName="Colombo", country="Sri Lanka",
+            mealsPrices=MealsPrices(mealInexpensiveRestaurant=1.36f, mealFor2PeopleMidRangeRestaurant=10.85f, mealAtMcDonaldSOrEquivalent=3.25f),
+            drinksPrices=DrinksPrices(cappuccinoRegularInRestaurants=1.46f, cokePepsiAThirdOfLiterBottleInRestaurants=0.35f, waterAThirdOfLiterBottleInRestaurants=0.18f, milkRegularOneLiter=1.15f, waterOneAndHalfLiterBottleAtTheMarket=0.4f),
+            fruitAndVegetablesPrices=FruitAndVegetablesPrices(apples1kg=4.27f, banana1kg=0.76f, oranges1kg=3.18f, tomato1kg=1.42f, potato1kg=1.02f, onion1kg=0.74f, lettuceOneHead=0.83f),
+            foodPrices=FoodPrices(loafOfFreshWhiteBread500g=0.64f, riceWhite1kg=0.66f, eggsRegular12=1.77f, localCheese1kg=7.4f, chickenFillets1kg=4.03f, beefRound1kgOrEquivalentBackLegRedMeat=5.89f),
+            servicesPrices=ServicesPrices(basicElectricityHeatingCoolingWaterGarbageFor85m2Apartment=23.56f, oneMinOfPrepaidMobileTariffLocalNoDiscountsOrPlans=0.01f, internet60MbpsOrMoreUnlimitedDataCableAdsl=internetPrice, fitnessClubMonthlyFeeForOneAdult=9.43f, tennisCourtRentOneHourOnWeekend=3.73f, cinemaInternationalReleaseOneSeat=2.37f, preschoolOrKindergartenFullDayPrivateMonthlyForOneChild=26.55f, internationalPrimarySchoolYearlyForOneChild=425.77f),
+            clothesPrices=ClothesPrices(onePairOfJeansLevis50oneOrSimilar=20.59f, oneSummerDressInAChainStoreZaraHAndM=12.77f, onePairOfNikeRunningShoesMidRange=44.42f, onePairOfMenLeatherBusinessShoes=24.71f),
+            transportationsPrices=TransportationsPrices(oneWayTicketLocalTransport=0.11f, monthlyPassRegularPrice=4.07f, taxiStartNormalTariff=0.27f, taxi1kmNormalTariff=0.27f, taxi1hourWaitingNormalTariff=0.49f, gasolineOneLiter=1.17f),
+            carsPrices=CarsPrices(volkswagenGolf_1_4_90kwTrendLineOrEquivalentNewCar=24406.97f, toyotaCorollaSedan_1_6l_97kwComfortOrEquivalentNewCar=28672.95f),
+            realEstatesPrices=RealEstatesPrices(apartmentOneBedroomInCityCentre=295.76f, apartmentOneBedroomOutsideOfCentre=109.14f, apartment3BedroomsInCityCentre=549.78f, apartment3BedroomsOutsideOfCentre=221.96f, pricePerSquareMeterToBuyApartmentInCityCentre=1734.36f, pricePerSquareMeterToBuyApartmentOutsideOfCentre=1114.33f),
+            averageMonthlyNetSalaryAfterTax=salary, dataQuality=true)
+
+        //when calculate the percentage of internet price from salary
+        val result = getCityHasCheapestInternetConnection.calculatingThePercentageOfTheInternetPriceFromTheSalary(city)
+        //then
+        assertNull(result)
+    }
+
+    @ParameterizedTest
+    @MethodSource("valuesForInternetPriceAndSalary")
+    fun should_ReturnNull_when_CityHaveAIncorrectInternetPriceAndSalary(internetPrice: Float?, salary: Float?) {
         //given city with instance value for internet
-        val city =
-            CityEntity(
-                cityName = "Caracas", country = "Venezuela",
-                mealsPrices = MealsPrices(null, null, null),
-                drinksPrices = DrinksPrices(null, null, null, null, null),
-                fruitAndVegetablesPrices = FruitAndVegetablesPrices(null, null, null, null, null, null, null),
-                foodPrices = FoodPrices(null, null, null, null, null, null),
-                servicesPrices = ServicesPrices(
-                    null,
-                    null,
-                    internet60MbpsOrMoreUnlimitedDataCableAdsl = internetPrice,
-                    null, null, null,
-                    null, null
-                ),
-                clothesPrices = ClothesPrices(null, null, null, null),
-                transportationsPrices = TransportationsPrices(null, null, null, null, null, null),
-                carsPrices = CarsPrices(null, null),
-                realEstatesPrices = RealEstatesPrices(null, null, null, null, null, null),
-                averageMonthlyNetSalaryAfterTax = salary, dataQuality = true
-            )
+        val city = CityEntity(cityName="Colombo", country="Sri Lanka",
+            mealsPrices=MealsPrices(mealInexpensiveRestaurant=1.36f, mealFor2PeopleMidRangeRestaurant=10.85f, mealAtMcDonaldSOrEquivalent=3.25f),
+            drinksPrices=DrinksPrices(cappuccinoRegularInRestaurants=1.46f, cokePepsiAThirdOfLiterBottleInRestaurants=0.35f, waterAThirdOfLiterBottleInRestaurants=0.18f, milkRegularOneLiter=1.15f, waterOneAndHalfLiterBottleAtTheMarket=0.4f),
+            fruitAndVegetablesPrices=FruitAndVegetablesPrices(apples1kg=4.27f, banana1kg=0.76f, oranges1kg=3.18f, tomato1kg=1.42f, potato1kg=1.02f, onion1kg=0.74f, lettuceOneHead=0.83f),
+            foodPrices=FoodPrices(loafOfFreshWhiteBread500g=0.64f, riceWhite1kg=0.66f, eggsRegular12=1.77f, localCheese1kg=7.4f, chickenFillets1kg=4.03f, beefRound1kgOrEquivalentBackLegRedMeat=5.89f),
+            servicesPrices=ServicesPrices(basicElectricityHeatingCoolingWaterGarbageFor85m2Apartment=23.56f, oneMinOfPrepaidMobileTariffLocalNoDiscountsOrPlans=0.01f, internet60MbpsOrMoreUnlimitedDataCableAdsl=internetPrice, fitnessClubMonthlyFeeForOneAdult=9.43f, tennisCourtRentOneHourOnWeekend=3.73f, cinemaInternationalReleaseOneSeat=2.37f, preschoolOrKindergartenFullDayPrivateMonthlyForOneChild=26.55f, internationalPrimarySchoolYearlyForOneChild=425.77f),
+            clothesPrices=ClothesPrices(onePairOfJeansLevis50oneOrSimilar=20.59f, oneSummerDressInAChainStoreZaraHAndM=12.77f, onePairOfNikeRunningShoesMidRange=44.42f, onePairOfMenLeatherBusinessShoes=24.71f),
+            transportationsPrices=TransportationsPrices(oneWayTicketLocalTransport=0.11f, monthlyPassRegularPrice=4.07f, taxiStartNormalTariff=0.27f, taxi1kmNormalTariff=0.27f, taxi1hourWaitingNormalTariff=0.49f, gasolineOneLiter=1.17f),
+            carsPrices=CarsPrices(volkswagenGolf_1_4_90kwTrendLineOrEquivalentNewCar=24406.97f, toyotaCorollaSedan_1_6l_97kwComfortOrEquivalentNewCar=28672.95f),
+            realEstatesPrices=RealEstatesPrices(apartmentOneBedroomInCityCentre=295.76f, apartmentOneBedroomOutsideOfCentre=109.14f, apartment3BedroomsInCityCentre=549.78f, apartment3BedroomsOutsideOfCentre=221.96f, pricePerSquareMeterToBuyApartmentInCityCentre=1734.36f, pricePerSquareMeterToBuyApartmentOutsideOfCentre=1114.33f),
+            averageMonthlyNetSalaryAfterTax=salary, dataQuality=true)
 
         //when scan the city have a correct values for internet and salary
         val result = getCityHasCheapestInternetConnection.excludeNullAndIncorrectInternetPriceAndSalary(city)
@@ -102,43 +116,23 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
 
 
     @Test
-    fun should_ReturnThePercentageOfInternetFromSalary_when_HaveCityWithCorrectInput() {
-        //given correct Input
-        val city =
-            CityEntity(
-                cityName = "Caracas", country = "Venezuela",
-                mealsPrices = MealsPrices(null, null, null),
-                drinksPrices = DrinksPrices(null, null, null, null, null),
-                fruitAndVegetablesPrices = FruitAndVegetablesPrices(null, null, null, null, null, null, null),
-                foodPrices = FoodPrices(null, null, null, null, null, null),
-                servicesPrices = ServicesPrices(
-                    null,
-                    null,
-                    internet60MbpsOrMoreUnlimitedDataCableAdsl = 50f,
-                    null, null, null,
-                    null, null
-                ),
-                clothesPrices = ClothesPrices(null, null, null, null),
-                transportationsPrices = TransportationsPrices(null, null, null, null, null, null),
-                carsPrices = CarsPrices(null, null),
-                realEstatesPrices = RealEstatesPrices(null, null, null, null, null, null),
-                averageMonthlyNetSalaryAfterTax = 500f, dataQuality = true
-            )
-
+    fun should_ReturnThePercentageOfInternetFromSalary_when_HaveCityWithCorrectInternetPriceAndSalary() {
+        //given city with correct internetPrice and salary
+        val city = fakeData.getAllCitiesData()[11]
 
         //when get a percentage of internet from salary
         val result = getCityHasCheapestInternetConnection.calculatingThePercentageOfTheInternetPriceFromTheSalary(city)
         //then
-        assertEquals(10f, result)
+        assertEquals(168.9f, result)
 
     }
 
     @Test
-    fun should_ReturnCity_When_HaveAListOfCity() {
+    fun should_ReturnNull_When_NoCityHasACheapInternet() {
         //when get city which has the cheapest internet
         val result = getCityHasCheapestInternetConnection.execute()
         //then
-        assertEquals(fakeData.getAllCitiesData()[10], result)
+        assertNull(result)
     }
 
 }

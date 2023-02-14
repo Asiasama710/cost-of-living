@@ -1,14 +1,22 @@
 package interactor
 
+import interactor.util.Constants.HIGHEST_POSSIBLE_PERCENTAGE_FOR_CHEAP_INTERNET
 import model.CityEntity
 
 class GetCityHasCheapestInternetConnectionInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
 
-    fun execute(): CityEntity {
-        return dataSource.getAllCitiesData().filter(::excludeNullAndIncorrectInternetPriceAndSalary)
-            .sortedBy(::calculatingThePercentageOfTheInternetPriceFromTheSalary).first()
+    fun execute(): CityEntity? {
+        return try {
+            dataSource.getAllCitiesData().filter {
+                excludeNullAndIncorrectInternetPriceAndSalary(it) &&
+                        calculatingThePercentageOfTheInternetPriceFromTheSalary(it)!! <= HIGHEST_POSSIBLE_PERCENTAGE_FOR_CHEAP_INTERNET
+            }.sortedBy(::calculatingThePercentageOfTheInternetPriceFromTheSalary).first()
+        } catch (e: Exception) {
+            null
+        }
+
     }
 
 
@@ -19,10 +27,11 @@ class GetCityHasCheapestInternetConnectionInteractor(
                 && (city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl > 0))
     }
 
-    fun calculatingThePercentageOfTheInternetPriceFromTheSalary(city: CityEntity): Float {
+    fun calculatingThePercentageOfTheInternetPriceFromTheSalary(city: CityEntity): Float? {
         val salary = city.averageMonthlyNetSalaryAfterTax
         val internetPrice = city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl
-        return (internetPrice!!.div(salary!!)).times(100)
+        return if (salary != null && internetPrice != null && salary > 0 && internetPrice > 0)
+            (internetPrice.div(salary)).times(100) else null
     }
 
 }
