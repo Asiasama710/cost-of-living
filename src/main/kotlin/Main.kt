@@ -8,7 +8,6 @@ import interactor.GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor
 import interactor.GetCitiesAndYearsToBuyApartmentInteractor
 import interactor.GetTopFashionCitiesInteractor
 import interactor.GetCitiesNamesSortedByCheapestBananaPricesInteractor
-import interactor.*
 import interactor.util.TypeOfApartments
 
 fun main() {
@@ -47,12 +46,12 @@ fun main() {
     println(getLowCostFruitVegetableCitiesWithHighSalaries.execute())
     printSeparationLine()
 
-    val getTheCityThatMatchManagerExpectations = GetTheCityThatMatchManagerExpectationsInteractor(dataSource)
-    println(getTheCityThatMatchManagerExpectations.execute())
-    printSeparationLine()
-
     val getCityHasCheapestInternetConnection = GetCityHasCheapestInternetConnectionInteractor(dataSource)
     println(getCityHasCheapestInternetConnection.execute())
+    printSeparationLine()
+
+    val getCityThatMatchManagerExpectations = GetCityThatMatchManagerExpectationsInteractor(dataSource)
+    println(getCityThatMatchManagerExpectations.execute("Canada"))
     printSeparationLine()
 
 
