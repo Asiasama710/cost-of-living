@@ -13,7 +13,7 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
             ?.maxByOrNull { city -> city.averageMonthlyNetSalaryAfterTax!! * SALARY_DUPLICATED - calculateSavingPrices(city) }
     }
 
-    private fun excludeNullValue(city: CityEntity): Boolean {
+     fun excludeNullValue(city: CityEntity): Boolean {
         return with(city) {
             foodPrices.chickenFillets1kg != null &&
                     foodPrices.localCheese1kg != null &&
@@ -25,7 +25,7 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
         }
     }
 
-    private fun calculateSavingPrices(prices: CityEntity): Float {
+     fun calculateSavingPrices(prices: CityEntity): Float {
         return with(prices) {
             foodPrices.chickenFillets1kg!! * CHICKEN_TEN_KG +
                     foodPrices.localCheese1kg!! +
