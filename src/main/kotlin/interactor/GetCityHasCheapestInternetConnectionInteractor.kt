@@ -1,28 +1,32 @@
 package interactor
 
+import interactor.util.checkNumber
+import interactor.util.formatSentence
 import model.CityEntity
 
 class GetCityHasCheapestInternetConnectionInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
 
-    fun execute(): CityEntity {
-        return dataSource.getAllCitiesData().filter(::excludeNullAndIncorrectInternetPriceAndSalary)
-            .sortedBy(::calculatingThePercentageOfTheInternetPriceFromTheSalary).first()
+    fun execute(countryName: String): CityEntity? {
+        return if (countryName.formatSentence().isNotEmpty())
+            dataSource.getAllCitiesData()
+                .filter {
+                    countryName.formatSentence() == it.country.lowercase() &&
+                            excludeNullAndIncorrectInternetPriceAndSalary(it)
+                }
+                .minByOrNull { calculatingThePercentageOfTheInternetPriceFromTheSalary(it) }
+        else return null
     }
 
-
-    // exclude null and negative and zero
-    fun excludeNullAndIncorrectInternetPriceAndSalary(city: CityEntity): Boolean {
-        return ((city.averageMonthlyNetSalaryAfterTax != null) && (city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl != null)
-                && (city.averageMonthlyNetSalaryAfterTax > 0)
-                && (city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl > 0))
+    private fun excludeNullAndIncorrectInternetPriceAndSalary(city: CityEntity): Boolean {
+        return city.averageMonthlyNetSalaryAfterTax.checkNumber()
+                && city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl.checkNumber()
     }
 
-    fun calculatingThePercentageOfTheInternetPriceFromTheSalary(city: CityEntity): Float {
+    private fun calculatingThePercentageOfTheInternetPriceFromTheSalary(city: CityEntity): Float {
         val salary = city.averageMonthlyNetSalaryAfterTax
         val internetPrice = city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl
-        return (internetPrice!!.div(salary!!)).times(100)
+        return internetPrice!!.div(salary!!)
     }
-
 }

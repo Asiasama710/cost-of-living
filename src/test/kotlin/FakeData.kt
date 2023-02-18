@@ -1323,7 +1323,6 @@ class FakeData : CostOfLivingDataSource {
             averageMonthlyNetSalaryAfterTax = 156.15f, dataQuality = true
         ),
 
-
         )
 
     override fun getAllCitiesData(): List<CityEntity> {

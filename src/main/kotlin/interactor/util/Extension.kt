@@ -12,3 +12,7 @@ fun String.formatSentence(): String {
 fun Float.toYear(): String {
     return if (this >= 2.0) "$this years" else "$this year"
 }
+
+fun Float?.checkNumber(): Boolean {
+    return this != null && this > 0
+}
