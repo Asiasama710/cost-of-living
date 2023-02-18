@@ -8,12 +8,12 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
     fun execute(): CityEntity? {
         return dataSource
             .getAllCitiesData()
-            .filter(::excludeNullValue)
+            .filter{excludeNullValue(it) && excludeValueLessThanZero(it)}
             .takeUnless { it.isEmpty() }
             ?.maxByOrNull { city -> city.averageMonthlyNetSalaryAfterTax!! * SALARY_DUPLICATED - calculateSavingPrices(city) }
     }
 
-     fun excludeNullValue(city: CityEntity): Boolean {
+    private fun excludeNullValue(city: CityEntity): Boolean {
         return with(city) {
             foodPrices.chickenFillets1kg != null &&
                     foodPrices.localCheese1kg != null &&
@@ -25,7 +25,19 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
         }
     }
 
-     fun calculateSavingPrices(prices: CityEntity): Float {
+    private fun excludeValueLessThanZero(city: CityEntity):Boolean {
+        return with(city){
+            foodPrices.chickenFillets1kg!! < 0 &&
+                    foodPrices.localCheese1kg!! < 0 &&
+                    foodPrices.riceWhite1kg!! < 0 &&
+                    foodPrices.loafOfFreshWhiteBread500g!! < 0 &&
+                    foodPrices.beefRound1kgOrEquivalentBackLegRedMeat!! < 0 &&
+                    averageMonthlyNetSalaryAfterTax!! < 0 &&
+                    realEstatesPrices.apartment3BedroomsInCityCentre!! < 0
+        }
+    }
+
+    private fun calculateSavingPrices(prices: CityEntity): Float {
         return with(prices) {
             foodPrices.chickenFillets1kg!! * CHICKEN_TEN_KG +
                     foodPrices.localCheese1kg!! +
