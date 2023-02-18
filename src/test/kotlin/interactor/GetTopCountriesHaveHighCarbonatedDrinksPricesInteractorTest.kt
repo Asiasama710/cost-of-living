@@ -5,24 +5,23 @@ import model.CityEntity
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class GetTopCountriesHaveHighCarbonatedDrinksPricesInterctorTest {
+class GetTopCountriesHaveHighCarbonatedDrinksPricesInteractorTest {
 
-    private lateinit var getTopCountriesHaveHighCarbonatedDrinksPrices: GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor
+    private lateinit var getTopCountriesHaveHighCarbonatedDrinksPrices: GetTopCountriesHaveHighCarbonatedDrinksPricesInteractor
     private lateinit var fakeData: FakeData
 
     @BeforeAll
     fun setUp() {
         fakeData = FakeData()
-        getTopCountriesHaveHighCarbonatedDrinksPrices = GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor(fakeData)
+        getTopCountriesHaveHighCarbonatedDrinksPrices = GetTopCountriesHaveHighCarbonatedDrinksPricesInteractor(fakeData)
     }
 
 
     @Test
-    fun should_ReturnCorrect_When_LimitIsMoreThanZero() {
+    fun should_ReturnCorrect_When_LimitIsPositive() {
         //given Country with drink price and limit
         val limit = 3
         //when getting a list of pair  contains the country name and drink price
