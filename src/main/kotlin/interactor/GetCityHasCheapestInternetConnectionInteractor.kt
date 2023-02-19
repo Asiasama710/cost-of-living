@@ -5,7 +5,7 @@ import interactor.util.formatSentence
 import model.CityEntity
 
 class GetCityHasCheapestInternetConnectionInteractor(
-    private val dataSource: CostOfLivingDataSource
+    private val dataSource: CostOfLivingDataSource,
 ) {
 
     fun execute(countryName: String): CityEntity? {
