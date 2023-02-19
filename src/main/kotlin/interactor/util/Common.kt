@@ -19,3 +19,7 @@ fun Float.toDiv(dividedNumber: Float): Float {
 fun Float.toYear(): String {
     return  if (this >=  2.0F) "$this $YEARS" else "$this $YEAR"
 }
+
+fun Float?.checkNumber(): Boolean {
+    return this != null && this > 0
+}

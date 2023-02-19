@@ -52,7 +52,7 @@ fun main() {
     printSeparationLine()
 
     val getCityHasCheapestInternetConnection = GetCityHasCheapestInternetConnectionInteractor(dataSource)
-    println(getCityHasCheapestInternetConnection.execute())
+    println(getCityHasCheapestInternetConnection.execute("Iraq"))
     printSeparationLine()
 
 
