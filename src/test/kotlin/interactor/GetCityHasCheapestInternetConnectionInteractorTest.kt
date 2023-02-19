@@ -1,6 +1,5 @@
 package interactor
 
-import EmptyFakeData
 import FakeDataCheapestInternet
 import model.*
 import org.junit.jupiter.api.Assertions.*
@@ -159,8 +158,12 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
     @Test
     fun should_ReturnNull_When_HaveAEmptyList() {
         //given correct country name with empty data source
-        val fakeData = EmptyFakeData()
-        val getCityHasCheapestInternetConnection = GetCityHasCheapestInternetConnectionInteractor(fakeData)
+        val getCityHasCheapestInternetConnection =
+            GetCityHasCheapestInternetConnectionInteractor(object : CostOfLivingDataSource {
+                override fun getAllCitiesData(): List<CityEntity> {
+                    return emptyList()
+                }
+            })
         val countryName = "Germany"
         //when get the city that have the cheapest internet
         val result = getCityHasCheapestInternetConnection.execute(countryName)
