@@ -9,24 +9,26 @@ class GetCityHasCheapestInternetConnectionInteractor(
 ) {
 
     fun execute(countryName: String): CityEntity? {
-        return if (countryName.formatSentence().isNotEmpty())
-            dataSource.getAllCitiesData()
-                .filter {
-                    countryName.formatSentence() == it.country.lowercase() &&
-                            excludeNullAndIncorrectInternetPriceAndSalary(it)
-                }
-                .minByOrNull { calculatingThePercentageOfTheInternetPriceFromTheSalary(it) }
-        else return null
+        return dataSource.getAllCitiesData().takeIf { countryName.formatSentence().isNotEmpty() }
+            ?.filter {
+                countryName.formatSentence() == it.country.lowercase() &&
+                        excludeNullAndIncorrectInternetPriceAndSalary(it)
+            }
+            ?.minByOrNull { calculatingThePercentageOfTheInternetPriceFromTheSalary(it) }
+
     }
 
     private fun excludeNullAndIncorrectInternetPriceAndSalary(city: CityEntity): Boolean {
-        return city.averageMonthlyNetSalaryAfterTax.checkNumber()
-                && city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl.checkNumber()
+        return with(city) {
+            averageMonthlyNetSalaryAfterTax.checkNumber()
+                    && servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl.checkNumber()
+        }
+
     }
 
     private fun calculatingThePercentageOfTheInternetPriceFromTheSalary(city: CityEntity): Float {
-        val salary = city.averageMonthlyNetSalaryAfterTax
-        val internetPrice = city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl
-        return internetPrice!!.div(salary!!)
+        return city.run {
+            servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl!!.div(averageMonthlyNetSalaryAfterTax!!)
+        }
     }
 }
