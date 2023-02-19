@@ -6,3 +6,10 @@ data class ClothesPrices(
     val onePairOfNikeRunningShoesMidRange: Float?,
     val onePairOfMenLeatherBusinessShoes: Float?,
 )
+
+fun ClothesPrices.getAllNotNullClothesPrices() = listOfNotNull(
+    onePairOfJeansLevis50oneOrSimilar,
+    onePairOfNikeRunningShoesMidRange,
+    oneSummerDressInAChainStoreZaraHAndM,
+    onePairOfMenLeatherBusinessShoes
+)
