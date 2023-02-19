@@ -1,5 +1,6 @@
 package interactor
 import FakeDataRentApartmentPrice
+import NullData
 import model.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetHighestApartmentPriceDifferenceCityInteractorTest {
-    private val fakeDataSource by lazy { FakeDataRentApartmentPrice()}
+    private val fakeDataSource by lazy { FakeDataRentApartmentPrice() }
     private lateinit var getCitiesHighestApartmentRent: GetHighestApartmentPriceDifferenceCityInteractor
 
 
@@ -21,13 +22,13 @@ class GetHighestApartmentPriceDifferenceCityInteractorTest {
     }
 
     @Test
-    fun should_ReturnCityWithHighestDifference_When_InputIsCorrect(){
+    fun should_ReturnCityWithHighestDifference_When_InputIsCorrect() {
 
         //when check which city has the highest difference rent between city center and outside
         val result = getCitiesHighestApartmentRent.execute()
 
         //then return the correct city
-        assertEquals("Lannull",result)
+        assertEquals("Lannull", result)
 
     }
 
@@ -38,30 +39,61 @@ class GetHighestApartmentPriceDifferenceCityInteractorTest {
         val result = getCitiesHighestApartmentRent.execute()
 
         //Then return false if data is empty
-        assertFalse(result.isEmpty() )
+        assertFalse(result.isEmpty())
     }
 
     @Test
-    fun should_ReturnTrue_When_DataIsNotBlank(){
+    fun should_ReturnTrue_When_DataIsNotBlank() {
 
         //when check which city has the highest difference rent between city center and outside
         val result = getCitiesHighestApartmentRent.execute()
 
         //Then return true if data is not blank
-        assertTrue(result.isNotBlank() )
+        assertTrue(result.isNotBlank())
     }
+
     @Test
     fun should_ReturnCorrectCity_When_DataIsAvailable() {
         //given an except city
-         val exceptCity=fakeDataSource.getAllCitiesData()[1].cityName
+        val exceptCity = fakeDataSource.getAllCitiesData()[1].cityName
 
         //when check which city has the highest difference rent between city center and outside
         val result = getCitiesHighestApartmentRent.execute()
 
         //Then assert result with except city
-        assertNotNull(result)
-        assertEquals(exceptCity,result)
+        assertEquals(exceptCity, result)
     }
+
+    @Test
+    fun should_ReturnFalse_When_ThereRentPriceIsNull() {
+        // When give a null data
+        val getCitiesHighestApartmentRent= GetHighestApartmentPriceDifferenceCityInteractor(NullData())
+        val result = getCitiesHighestApartmentRent.execute()
+
+        // Then return false
+        assertFalse(result.isEmpty())
+
+    }
+    @Test
+    fun should_ReturnCityEntity_When_IsCorrectResult() {
+        //given not correct city
+
+        val exceptCity = fakeDataSource.getAllCitiesData()[0].cityName
+        //when
+        val result = getCitiesHighestApartmentRent.execute()
+
+        // then check if the result equal to exceptCity
+        assertNotEquals(exceptCity, result)
+    }
+    @Test
+    fun should_ReturnNotNull_When_TheCityIsNotNull() {
+
+        //when check which city has the highest difference rent between city center and outside
+        val result = getCitiesHighestApartmentRent.execute()
+        //then return not null
+        assertNotNull(result)
+    }
+
 
 }
 
