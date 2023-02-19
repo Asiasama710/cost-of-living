@@ -7,7 +7,6 @@ object Constants {
     const val UNITED_STATES = "United States"
     const val MEXICO = "Mexico"
     const val CANADA = "Canada"
-
     const val YEARS = "years"
     const val YEAR = "year"
     const val VALUE_OF_PLURAL_YEARS = 2.0F
