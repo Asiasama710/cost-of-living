@@ -3,6 +3,7 @@ package interactor
 import fakeDataSource.FakeData
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.*
+import kotlin.test.assertTrue
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetTopFashionCitiesInteractorTest {
@@ -21,18 +22,18 @@ class GetTopFashionCitiesInteractorTest {
         //given limit value > 0
         val limit = 5
         //when
-        val result = getTopFashionCities.execute(limit)
+        val actual = getTopFashionCities.execute(limit)
         //Then
-        assertEquals(listOf("Accra", "Multan", "Karachi", "Colombo", "Colombo"), result)
+        assertEquals(listOf("Accra", "Multan", "Karachi", "Colombo", "Colombo"), actual)
     }
     @Test
     fun should_ReturnCorrectListSize_When_HaveAvailableLimitValue() {
         //given limit value > 0
         val limit = 5
         //when
-        val result = getTopFashionCities.execute(limit)
+        val actual = getTopFashionCities.execute(limit)
         //Then
-        assertEquals(limit, result.size)
+        assertEquals(limit, actual.size)
     }
 
     @Test
@@ -40,10 +41,9 @@ class GetTopFashionCitiesInteractorTest {
         //given limit value = 0
         val limit = 0
         //when
-        val result = getTopFashionCities.execute(limit)
-        val expectedResult = emptyList<String>()
+        val actual = getTopFashionCities.execute(limit).isEmpty()
         //Then
-        assertEquals(expectedResult, result)
+        assertTrue(actual)
     }
 
     @Test
@@ -58,8 +58,8 @@ class GetTopFashionCitiesInteractorTest {
         //given limit value greater than Available
         val limit = 30
         //when
-        val result = getTopFashionCities.execute(limit)
+        val actual = getTopFashionCities.execute(limit)
         //then
-        assertEquals(17, result.size)
+        assertEquals(17, actual.size)
     }
 }
