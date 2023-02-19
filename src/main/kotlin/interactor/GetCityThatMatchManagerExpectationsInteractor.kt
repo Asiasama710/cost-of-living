@@ -46,4 +46,6 @@ private val dataSource: CostOfLivingDataSource
     private fun takeIfAverageMealPriceIsBetweenMinAndMax(city: CityEntity) : Boolean =
        getAverageMealPrice(city) in minMealPrice(city)..maxMealPrice(city)
 
+
+
 }
