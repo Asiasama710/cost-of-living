@@ -1,7 +1,9 @@
+package fakeDataSource
+
 import interactor.CostOfLivingDataSource
 import model.*
 
-class FakeDataRentApartmentPrice:CostOfLivingDataSource {
+class FakeDataOfRentApartmentPrice:CostOfLivingDataSource {
     override fun getAllCitiesData(): List<CityEntity> {
         return listOf(
 

@@ -1,7 +1,7 @@
 package interactor
-import FakeDataRentApartmentPrice
 import NullData
 import model.*
+import fakeDataSource.FakeDataRentApartmentPrice
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestInstance
 class GetHighestApartmentPriceDifferenceCityInteractorTest {
     private val fakeDataSource by lazy { FakeDataRentApartmentPrice() }
     private lateinit var getCitiesHighestApartmentRent: GetHighestApartmentPriceDifferenceCityInteractor
-
 
     @BeforeAll
     fun setUp() {
