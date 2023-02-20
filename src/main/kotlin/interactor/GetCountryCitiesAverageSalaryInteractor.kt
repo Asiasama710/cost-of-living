@@ -1,6 +1,8 @@
 package interactor
 
-import interactor.util.formatSentence
+import EmptyDataException
+import interactor.util.Constants.DATA_IS_EMPTY
+import interactor.util.isEquals
 import model.CityEntity
 
 class GetCountryCitiesAverageSalaryInteractor(
@@ -8,19 +10,25 @@ class GetCountryCitiesAverageSalaryInteractor(
 ) {
 
     fun execute(country: String): List<Pair<String, Float>> {
-        return dataSource.getAllCitiesData()
-            .filter { compareCountry(it, country) && excludeNullSalariesAndLowQualityData(it) }
-            .map { Pair(it.cityName, it.averageMonthlyNetSalaryAfterTax!!) }
-            .takeIf { it.isNotEmpty() } ?: throw Exception("country was not found !")
+        return dataSource
+            .getAllCitiesData()
+            .takeIf { it.isNotEmpty()}
+            ?.filter {
+                it.country.isEquals(country) &&
+                excludeNullSalariesAndLowQualityData(it)
+            }
+            ?.map { Pair(it.cityName, it.averageMonthlyNetSalaryAfterTax!!) }
+            ?: throw throw EmptyDataException(DATA_IS_EMPTY)
     }
+
 
     private fun excludeNullSalariesAndLowQualityData(city: CityEntity): Boolean {
-        return city.averageMonthlyNetSalaryAfterTax != null && city.dataQuality
+        return city.let {
+            it.averageMonthlyNetSalaryAfterTax != null &&
+            it.dataQuality
+        }
     }
-
-    private fun compareCountry(city: CityEntity, country: String): Boolean {
-        return city.country.formatSentence() == country.formatSentence()
-    }
-
 
 }
+
+

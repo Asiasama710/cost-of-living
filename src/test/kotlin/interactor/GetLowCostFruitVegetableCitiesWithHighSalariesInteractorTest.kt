@@ -21,7 +21,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     }
 
     @Test
-    fun should_returnCorrectResult_when_correctListIsGiven() {
+    fun should_ReturnCorrectResult_when_correctListIsGiven() {
         //given the limit of cities is 10
         val expectedResult = listOf(
             "Giza",
@@ -44,7 +44,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     }
 
     @Test
-    fun should_returnTen_when_theSizeOfTheListIsTen() {
+    fun should_ReturnTen_when_theSizeOfTheListIsTen() {
         //given the limit of cities is 10
         val limit = 10
         // when
@@ -55,7 +55,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     }
 
     @Test
-    fun should_return_allTheList_when_limitIsMoreThanListSize() {
+    fun should_Return_allTheList_when_limitIsMoreThanListSize() {
         //given the limit of cities is 20
         val limit = 20
         // when
@@ -67,7 +67,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
 
 
     @Test
-    fun should_return_emptyList_when_limitIsZero() {
+    fun should_Return_emptyList_when_limitIsZero() {
         //given the limit of cities is 0
         val limit = 0
         // when
@@ -78,7 +78,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     }
 
     @Test
-    fun should_return_emptyList_when_limitIsNegative() {
+    fun should_Return_emptyList_when_limitIsNegative() {
         //given the limit of cities is -1
         val limit = -1
         // when

@@ -23,3 +23,7 @@ fun Float.toYear(): String {
 fun Float?.checkNumber(): Boolean {
     return this != null && this > 0
 }
+
+fun String.isEquals(country: String): Boolean {
+    return this.formatSentence() == country.formatSentence()
+}

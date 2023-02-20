@@ -1,16 +1,23 @@
 package interactor
 
+import EmptyDataException
+import interactor.util.Constants
 import model.CityEntity
 
 class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
-    private val dataSource: CostOfLivingDataSource
+    private val dataSource: CostOfLivingDataSource ,
 ) {
     fun execute(): CityEntity? {
         return dataSource
             .getAllCitiesData()
-            .filter{excludeNullValue(it) && excludeValueLessThanZero(it)}
-            .takeUnless { it.isEmpty() }
-            ?.maxByOrNull { city -> city.averageMonthlyNetSalaryAfterTax!! * SALARY_DUPLICATED - calculateSavingPrices(city) }
+            .takeIf { it.isNotEmpty()}
+            ?.filter{excludeNullValue(it) && excludeValueLessThanZero(it)}
+            ?.takeUnless { it.isEmpty() }
+            ?.maxByOrNull { city ->
+                (city.averageMonthlyNetSalaryAfterTax!! * SALARY_DUPLICATED) -
+                    calculateSavingPrices(city)
+            }
+            ?: throw EmptyDataException(Constants.DATA_IS_EMPTY)
     }
 
     private fun excludeNullValue(city: CityEntity): Boolean {
@@ -43,7 +50,7 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
                     foodPrices.localCheese1kg!! +
                     foodPrices.riceWhite1kg!! * RICE_WHITE_TWO_KG +
                     foodPrices.beefRound1kgOrEquivalentBackLegRedMeat!! * RED_MEET_FOUR_KG +
-                    foodPrices.loafOfFreshWhiteBread500g!! / 1000 *  30 +
+                    foodPrices.loafOfFreshWhiteBread500g!! / ONE_KG *  MONTH_DAYS +
                     realEstatesPrices.apartment3BedroomsInCityCentre!! + PRICE_FOR_OTHER_TYPE_NEEDS
         }
     }
@@ -54,7 +61,8 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractor(
         private const val RED_MEET_FOUR_KG = 4
         private const val PRICE_FOR_OTHER_TYPE_NEEDS = 250
         private const val SALARY_DUPLICATED = 2
-
+        private const val ONE_KG = 1000
+        private const val MONTH_DAYS = 30
     }
 
 }

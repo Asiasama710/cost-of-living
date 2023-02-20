@@ -1,4 +1,6 @@
 package interactor
+import LimitException
+import interactor.util.Constants.LIMIT_LESS_THAN_ZERO
 import interactor.util.Constants.ONE_HUNDRED_SQUARE_METER
 import interactor.util.Constants.TWELVE_MONTH
 import model.CityEntity
@@ -15,25 +17,30 @@ class GetCitiesAndYearsToBuyApartmentInteractor(
                 .getAllCitiesData()
                 .filter(::excludeNullValueAndSalaryIsZeroAndLowQualityData)
                 .sortedBy(::calculateYearsNeededToBuyApartment)
-                .take(limit)
-                .associateBy (CityEntity::cityName , ::calculateYearsNeededToBuyApartment )
+                .takeIf { limit > 0 }
+                ?.take(limit)
+                ?.associateBy (CityEntity::cityName , ::calculateYearsNeededToBuyApartment )
+                ?: throw LimitException(LIMIT_LESS_THAN_ZERO)
     }
 
 
     private fun excludeNullValueAndSalaryIsZeroAndLowQualityData(city: CityEntity): Boolean {
         return city.let {
             it.dataQuality &&
-                    it.cityName.trim().isNotEmpty() &&
-                    it.averageMonthlyNetSalaryAfterTax != null &&
-                    it.realEstatesPrices.pricePerSquareMeterToBuyApartmentOutsideOfCentre != null &&
-                    it.averageMonthlyNetSalaryAfterTax > 0f
+            it.cityName.trim().isNotEmpty() &&
+            it.averageMonthlyNetSalaryAfterTax != null &&
+            it.realEstatesPrices.pricePerSquareMeterToBuyApartmentOutsideOfCentre != null &&
+            it.averageMonthlyNetSalaryAfterTax > 0f
         }
     }
 
      fun calculateYearsNeededToBuyApartment(city: CityEntity): String {
-        return (city.realEstatesPrices.pricePerSquareMeterToBuyApartmentOutsideOfCentre!! * ONE_HUNDRED_SQUARE_METER)
-                .toDiv( city.averageMonthlyNetSalaryAfterTax!! * TWELVE_MONTH ).toYear()
-    }
+        return city.run {
+            (realEstatesPrices.pricePerSquareMeterToBuyApartmentOutsideOfCentre!! * ONE_HUNDRED_SQUARE_METER)
+                .toDiv(averageMonthlyNetSalaryAfterTax!! * TWELVE_MONTH)
+                .toYear()
+        }
+     }
 }
 
 
