@@ -54,6 +54,7 @@ class GetTopCountriesHaveHighCarbonatedDrinksPricesInterctorTest {
         val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
         // Then
         assertEquals(emptyList<CityEntity>(), result)
+
     }
 
 
