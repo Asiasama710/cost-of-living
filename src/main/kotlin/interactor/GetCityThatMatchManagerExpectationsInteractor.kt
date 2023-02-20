@@ -6,17 +6,14 @@ class GetCityThatMatchManagerExpectationsInteractor(
 private val dataSource: CostOfLivingDataSource
 )
 {
-    fun execute(country: String): List<String> {
-        val myCitiesData = dataSource
+    fun execute(country: String): CityEntity? {
+        val myCitiesData: List<CityEntity> = dataSource
             .getAllCitiesData()
-            .asSequence()
             .filter{excludeNullMealsPricesAndLowQualityData(it) && it.country == filteringBasedOnCountry(country)}
             .filter(::takeIfAverageMealPriceIsBetweenMinAndMax)
             .sortedBy { getAverageMealPrice(it) }
-            .map {it.cityName}
-            .toList()
-        if(myCitiesData.isNotEmpty()) return listOf(myCitiesData[myCitiesData.size / 2])
-        return emptyList()
+        if (myCitiesData.isNotEmpty()) return myCitiesData[myCitiesData.size / 2]
+        return null
     }
     private fun excludeNullMealsPricesAndLowQualityData(city: CityEntity): Boolean {
         return city.mealsPrices.mealInexpensiveRestaurant != null &&

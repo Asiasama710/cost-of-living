@@ -54,7 +54,6 @@ fun main() {
     println(getCityThatMatchManagerExpectations.execute("Canada"))
     printSeparationLine()
 
-
 }
 
 private fun printSeparationLine() {

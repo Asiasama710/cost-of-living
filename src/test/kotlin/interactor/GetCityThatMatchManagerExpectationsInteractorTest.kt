@@ -21,7 +21,7 @@ class GetCityThatMatchManagerExpectationsInteractorTest {
         //give
         val countryName = "iraq"
         //when
-        val expected: List<String> = emptyList()
+        val expected: CityEntity? = null
         val actual= getCityThatMatchManagerExpectations.execute(countryName)
         //then
         assertEquals(expected,actual)
