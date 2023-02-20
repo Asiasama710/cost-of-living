@@ -1,7 +1,7 @@
 package interactor
-import NullData
 import model.*
-import fakeDataSource.FakeDataRentApartmentPrice
+import fakeDataSource.FakeDataOfRentApartmentPrice
+import fakeDataSource.NullData
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetHighestApartmentPriceDifferenceCityInteractorTest {
-    private val fakeDataSource by lazy { FakeDataRentApartmentPrice() }
+    private val fakeDataSource by lazy { FakeDataOfRentApartmentPrice() }
     private lateinit var getCitiesHighestApartmentRent: GetHighestApartmentPriceDifferenceCityInteractor
 
     @BeforeAll
@@ -53,14 +53,12 @@ class GetHighestApartmentPriceDifferenceCityInteractorTest {
 
     @Test
     fun should_ReturnCorrectCity_When_DataIsAvailable() {
-        //given an except city
-        val exceptCity = fakeDataSource.getAllCitiesData()[1].cityName
-
         //when check which city has the highest difference rent between city center and outside
         val result = getCitiesHighestApartmentRent.execute()
+        val expectedResult = fakeDataSource.getAllCitiesData()[1].cityName
 
         //Then assert result with except city
-        assertEquals(exceptCity, result)
+        assertEquals(expectedResult, result)
     }
 
     @Test
@@ -75,14 +73,12 @@ class GetHighestApartmentPriceDifferenceCityInteractorTest {
     }
     @Test
     fun should_ReturnCityEntity_When_IsCorrectResult() {
-        //given not correct city
-
-        val exceptCity = fakeDataSource.getAllCitiesData()[0].cityName
         //when
         val result = getCitiesHighestApartmentRent.execute()
+        val expectedResult = fakeDataSource.getAllCitiesData()[0].cityName
 
         // then check if the result equal to exceptCity
-        assertNotEquals(exceptCity, result)
+        assertNotEquals(expectedResult, result)
     }
     @Test
     fun should_ReturnNotNull_When_TheCityIsNotNull() {

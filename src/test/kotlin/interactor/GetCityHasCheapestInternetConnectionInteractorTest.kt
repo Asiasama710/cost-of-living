@@ -1,6 +1,6 @@
 package interactor
 
-import FakeDataCheapestInternet
+import fakeDataSource.FakeDataCheapestInternet
 import model.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -16,6 +16,104 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
     @BeforeAll
     fun setup() {
         getCityHasCheapestInternetConnection = GetCityHasCheapestInternetConnectionInteractor(fakeData)
+    }
+
+    @Test
+    fun should_ReturnCityEntity_When_HaveACorrectCountryName() {
+        //given correct country name
+        val countryName = "Germany"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertEquals(city, result)
+    }
+
+
+    @Test
+    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithWhiteSpaceOnTheEdges() {
+        //given country name with white space
+        val countryName = "    Germany   "
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertEquals(city, result)
+    }
+
+    @Test
+    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithMultipleCharacterCase() {
+        //given country name with multiple character case
+        val countryName = "GerManY"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertEquals(city, result)
+    }
+
+    @Test
+    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithWhiteSpaceAndMultipleCharacterCase() {
+        //given country name with multiple character case and white space
+        val countryName = "                  GErManY    "
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertEquals(city, result)
+    }
+
+    @Test
+    fun should_ReturnNull_When_HaveAIncorrectCountryName() {
+        //given Incorrect country name
+        val countryName = "Garmany"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertNull(result)
+    }
+
+    @Test
+    fun should_ReturnNull_When_HaveASpaceInMiddleOfCountryName() {
+        //given Incorrect country name
+        val countryName = "Garm     any"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertNull(result)
+    }
+
+    @Test
+    fun should_ReturnNull_When_HaveAEmptyList() {
+        //given correct country name with empty data source
+        val getCityHasCheapestInternetConnection =
+            GetCityHasCheapestInternetConnectionInteractor(object : CostOfLivingDataSource {
+                override fun getAllCitiesData(): List<CityEntity> {
+                    return emptyList()
+                }
+            })
+        val countryName = "Germany"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertNull(result)
+    }
+
+
+    @Test
+    fun should_ReturnNull_When_HaveACountryWithIncorrectDataInAllCities() {
+        //given correct country name with all cities has incorrect data
+        val countryName = "United Kingdom"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertNull(result)
+    }
+
+    @Test
+    fun should_ReturnNull_When_HaveCountryNameThatNotExist() {
+        //given correct country name
+        val countryName = "France"
+        //when get the city that have the cheapest internet
+        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        //then
+        assertNull(result)
     }
 
     companion object {
@@ -92,104 +190,4 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
         }
 
     }
-
-
-    @Test
-    fun should_ReturnCityEntity_When_HaveACorrectCountryName() {
-        //given correct country name
-        val countryName = "Germany"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertEquals(city, result)
-    }
-
-    @Test
-    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithWhiteSpaceOnTheEdges() {
-        //given country name with white space
-        val countryName = "    Germany   "
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertEquals(city, result)
-    }
-
-    @Test
-    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithMultipleCharacterCase() {
-        //given country name with multiple character case
-        val countryName = "GerManY"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertEquals(city, result)
-    }
-
-    @Test
-    fun should_ReturnCityEntity_When_HaveACorrectCountyNameWithWhiteSpaceAndMultipleCharacterCase() {
-        //given country name with multiple character case and white space
-        val countryName = "                  GErManY    "
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertEquals(city, result)
-    }
-
-    @Test
-    fun should_ReturnNull_When_HaveAIncorrectCountryName() {
-        //given Incorrect country name
-        val countryName = "Garmany"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertNull(result)
-    }
-
-    @Test
-    fun should_ReturnNull_When_HaveASpaceInMiddleOfCountryName() {
-        //given Incorrect country name
-        val countryName = "Garm     any"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertNull(result)
-    }
-
-
-    @Test
-    fun should_ReturnNull_When_HaveAEmptyList() {
-        //given correct country name with empty data source
-        val getCityHasCheapestInternetConnection =
-            GetCityHasCheapestInternetConnectionInteractor(object : CostOfLivingDataSource {
-                override fun getAllCitiesData(): List<CityEntity> {
-                    return emptyList()
-                }
-            })
-        val countryName = "Germany"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertNull(result)
-    }
-
-    @Test
-    fun should_ReturnNull_When_HaveACountryWithIncorrectDataInAllCities() {
-        //given correct country name with all cities has incorrect data
-        val countryName = "United Kingdom"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertNull(result)
-    }
-
-    @Test
-    fun should_ReturnNull_When_HaveCountryNameThatNotExist() {
-        //given correct country name
-        val countryName = "France"
-        //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
-        //then
-        assertNull(result)
-    }
-
-
 }
