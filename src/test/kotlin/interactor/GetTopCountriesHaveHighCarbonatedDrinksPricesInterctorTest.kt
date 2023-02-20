@@ -54,7 +54,9 @@ class GetTopCountriesHaveHighCarbonatedDrinksPricesInterctorTest {
         val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
         // Then
         assertEquals(emptyList<CityEntity>(), result)
+
     }
+
 
 
     @Test
@@ -68,5 +70,13 @@ class GetTopCountriesHaveHighCarbonatedDrinksPricesInterctorTest {
         if (getTop10CountriesWithHighTaxOnCarbonatedDrinks.any { it.second == null })
             AssertionError("Drink Price can't be Null")
     }
-
+    @Test
+    fun should_ReturnTrue_When_DataIsNotEmpty() {
+        //given
+        val limit=3
+        //when
+        val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
+        //Then return false if data is empty
+        assertTrue(result.isNotEmpty())
+    }
 }
