@@ -51,7 +51,7 @@ fun main() {
     printSeparationLine()
 
     val getCityThatMatchManagerExpectations = GetCityThatMatchManagerExpectationsInteractor(dataSource)
-    println(getCityThatMatchManagerExpectations.execute("Canada"))
+    println(getCityThatMatchManagerExpectations.execute(listOf("United States", "Canada", "Mexico")))
     printSeparationLine()
 
 }

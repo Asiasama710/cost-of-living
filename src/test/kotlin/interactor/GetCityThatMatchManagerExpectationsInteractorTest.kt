@@ -1,7 +1,9 @@
 package interactor
 
 import FakeData
+import interactor.util.Constants
 import model.*
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -17,26 +19,26 @@ class GetCityThatMatchManagerExpectationsInteractorTest {
         getCityThatMatchManagerExpectations = GetCityThatMatchManagerExpectationsInteractor(fakeData)
     }
     @Test
-    fun should_ReturnEmptyList_when_InputIsNotUnitedStatesOrCanadaOrMexico() {
+    fun should_ReturnCity_When_InputIsListOfCorrectCountries() {
         //give
-        val countryName = "iraq"
+        val countryName = listOf( "Venezuela", "Egypt")
         //when
-        val expected: CityEntity? = null
+        val expected= fakeData.getAllCitiesData()[0]
         val actual= getCityThatMatchManagerExpectations.execute(countryName)
         //then
         assertEquals(expected,actual)
     }
 
-    @Test
-    fun should_ReturnUnitedStatesOrCanadaOrMexico_when_InputIsUnitedStatesOrCanadaOrMexico() {
-        //give
-        val countriesName = listOf("United States", "Canada", "Mexico")
-        //when
-        val randomIndex = (countriesName.indices).random()
-        val actual = getCityThatMatchManagerExpectations.filteringBasedOnCountry(countriesName[randomIndex])
-        //then
-        assert(countriesName.contains(actual))
-    }
+//    @Test
+//    fun should_ReturnUnitedStatesOrCanadaOrMexico_when_InputIsUnitedStatesOrCanadaOrMexico() {
+//        //give
+//        val countriesName = listOf("United States", "Canada", "Mexico")
+//        //when
+//        val randomIndex = (countriesName.indices).random()
+//        val actual = getCityThatMatchManagerExpectations.filteringBasedOnCountry(countriesName[randomIndex])
+//        //then
+//        assert(countriesName.contains(actual))
+//    }
 
     @Test
     fun should_ReturnMinMealPrice_when_ReceivingCityEntityObject() {
@@ -121,5 +123,7 @@ class GetCityThatMatchManagerExpectationsInteractorTest {
         //then
         assertEquals(expected,actual)
     }
+
+
 
 }
