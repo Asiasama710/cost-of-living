@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetCityThatMatchManagerExpectationsInteractorTest {
     private lateinit var getCityThatMatchManagerExpectations: GetCityThatMatchManagerExpectationsInteractor
@@ -22,7 +24,7 @@ class GetCityThatMatchManagerExpectationsInteractorTest {
     @Test
     fun should_ReturnCity_When_InputIsListOfCorrectCountries() {
         //give
-        val countryName = listOf( "Venezuela", "Egypt")
+        val countryName = listOf("Sri Lanka", "Germany")
         //when
         val expected= fakeData.getAllCitiesData()[0]
         val actual= getCityThatMatchManagerExpectations.execute(countryName)
@@ -30,17 +32,15 @@ class GetCityThatMatchManagerExpectationsInteractorTest {
         assertEquals(expected,actual)
     }
 
-//    @Test
-//    fun should_ReturnUnitedStatesOrCanadaOrMexico_when_InputIsUnitedStatesOrCanadaOrMexico() {
-//        //give
-//        val countriesName = listOf("United States", "Canada", "Mexico")
-//        //when
-//        val randomIndex = (countriesName.indices).random()
-//        val actual = getCityThatMatchManagerExpectations.filteringBasedOnCountry(countriesName[randomIndex])
-//        //then
-//        assert(countriesName.contains(actual))
-//    }
-
+    @Test
+    fun should_ReturnNull_When_CountryNotExist() {
+        //give
+        val countryName = listOf("Paris", "India")
+        //when
+        val result= getCityThatMatchManagerExpectations.execute(countryName)
+        //then
+        assertNull(result)
+    }
     @Test
     fun should_ReturnMinMealPrice_when_ReceivingCityEntityObject() {
         //give
