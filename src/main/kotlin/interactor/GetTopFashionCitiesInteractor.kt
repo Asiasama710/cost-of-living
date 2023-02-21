@@ -2,7 +2,6 @@ package interactor
 
 import model.CityEntity
 import model.ClothesPrices
-import model.getAllNotNullClothesPrices
 
 class GetTopFashionCitiesInteractor(
     private val dataSource: CostOfLivingDataSource,
