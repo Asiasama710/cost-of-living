@@ -4,7 +4,6 @@ import interactor.*
 import interactor.CostOfLivingDataSource
 import interactor.GetCityHasCheapestInternetConnectionInteractor
 import interactor.GetHighestSalaryAverageCitiesNamesInteractor
-import interactor.GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor
 import interactor.GetCitiesAndYearsToBuyApartmentInteractor
 import interactor.GetTopFashionCitiesInteractor
 import interactor.GetCitiesNamesSortedByCheapestBananaPricesInteractor
@@ -17,7 +16,7 @@ fun main() {
     val dataSource: CostOfLivingDataSource = CsvDataSource(csvParser)
 
     printSeparationLine(message = "get Top Countries With High Tax On Carbonated Drinks")
-    val getTopCountriesWithHighTaxOnCarbonatedDrinks= GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor(dataSource)
+    val getTopCountriesWithHighTaxOnCarbonatedDrinks= GetTopCountriesHaveHighCarbonatedDrinksPricesInteractor(dataSource)
     println(getTopCountriesWithHighTaxOnCarbonatedDrinks.execute(limit = 10))
     printSeparationLine()
 

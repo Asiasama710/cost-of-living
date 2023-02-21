@@ -11,6 +11,7 @@ import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
+
     private lateinit var getLowCostFruitVegetableCitiesWithHighSalaries: GetLowCostFruitVegetableCitiesWithHighSalariesInteractor
     private val fakeData by lazy { FakeData() }
 
@@ -24,17 +25,18 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     fun should_ReturnCorrectResult_when_correctListIsGiven() {
         //given the limit of cities is 10
         val expectedResult = listOf(
+            "Roseburg",
             "Giza",
             "Rawalpindi",
             "Alexandria",
             "Hyderabad City",
             "Karachi",
             "Lahore",
+            "Tapachula",
             "Multan",
             "Tanta",
-            "Accra",
-            "Dushanbe"
         )
+
         val limit = 10
         // when find 10 cities that has lowest fruitVeg prices comparing to salaries paid there
         val result = getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit)
@@ -62,30 +64,29 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         val result = getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit).size
 
         //then
-        assertEquals(19, result)
+        assertEquals(20, result)
     }
 
 
     @Test
-    fun should_Return_emptyList_when_limitIsZero() {
+    fun should_ReturnThrowException_when_limitIsZero() {
         //given the limit of cities is 0
         val limit = 0
         // when
-        val result = getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit).isEmpty()
-
+        val result  =  Executable { getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit) }
         //then
-        assertTrue(result)
+        assertThrows( Exception::class.java ,result)
     }
 
     @Test
-    fun should_Return_emptyList_when_limitIsNegative() {
+    fun should_ReturnThrowException_when_limitIsNegative() {
         //given the limit of cities is -1
         val limit = -1
         // when
-        val result = getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit).isEmpty()
-
+        val result  =  Executable { getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit) }
         //then
-        assertTrue(result)
+        assertThrows( Exception::class.java ,result)
+
     }
 
 

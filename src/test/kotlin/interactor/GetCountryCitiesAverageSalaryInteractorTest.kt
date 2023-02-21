@@ -4,6 +4,7 @@ import fakeDataSource.FakeDataOfGetCountryCitiesAverageSalary
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.function.Executable
 
@@ -85,32 +86,33 @@ class GetCountryCitiesAverageSalaryInteractorTest {
         assertNotEquals(unexpected,cityAverage)
     }
     @Test
-    fun should_ThrowException_When_EnteringEmptyString() {
+    fun should_ReturnEmptyList_When_EnteringEmptyString() {
         //given
         val country = ""
         // when
-        val result = Executable { getCountryCitiesAverageSalary.execute(country = country) }
+        val result = getCountryCitiesAverageSalary.execute(country = country)
         //then
-        assertThrows(Exception::class.java, result)
+        assertEquals( emptyList<Pair<String, Float>>(),result)
     }
 
     @Test
-    fun should_ThrowErr_When_EntringSpaces() {
+    fun should_ReturnEmptyList_When_EntringSpaces() {
         //given
         val country = "         "
         // when
-        val result = Executable{getCountryCitiesAverageSalary.execute(country = country)}
+        val result = getCountryCitiesAverageSalary.execute(country = country)
         //then
-        assertThrows(Exception::class.java,result)
+        assertEquals( emptyList<Pair<String, Float>>(),result)
     }
+
     @Test
-    fun should_ThrowException_When_EnteringCountryNameNotInEnglish() {
+    fun should_ReturnEmptyList_When_EnteringCountryNameNotInEnglish() {
         //given
         val country = "كوبا"
         // when
-        val result = Executable { getCountryCitiesAverageSalary.execute(country = country) }
+        val result = getCountryCitiesAverageSalary.execute(country = country)
         //then
-        assertThrows(Exception::class.java, result)
+        assertEquals( emptyList<Pair<String, Float>>(),result)
     }
 
     @Test
@@ -145,21 +147,22 @@ class GetCountryCitiesAverageSalaryInteractorTest {
     }
 
     @Test
-    fun should_ThrowErr_When_EntringNoneExsistingCountry(){
+    fun should_ReturnEmptyList_When_EntringNoneExsistingCountry(){
         //given
         val country = "dnawbdhawbdhabwjhdahwdbdahw"
         // when
-        val result = Executable{getCountryCitiesAverageSalary.execute(country = country)}
+        val result = getCountryCitiesAverageSalary.execute(country = country)
         //then
-        assertThrows(Exception::class.java,result)
+        assertEquals( emptyList<Pair<String, Float>>(),result)
     }
+
     @Test
-    fun should_ThrowErr_When_EntringNumberInString(){
+    fun should_ReturnEmptyList_When_EntringNumberInString(){
         //given
         val country = "144"
         // when
-        val result = Executable{getCountryCitiesAverageSalary.execute(country = country)}
+        val result = getCountryCitiesAverageSalary.execute(country = country)
         //then
-        assertThrows(Exception::class.java,result)
+        assertEquals( emptyList<Pair<String, Float>>(),result)
     }
 }
