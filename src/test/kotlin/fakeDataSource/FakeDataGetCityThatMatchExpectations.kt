@@ -1,5 +1,6 @@
-package interactor
+package fakeDataSource
 
+import interactor.CostOfLivingDataSource
 import model.*
 
 class FakeDataGetCityThatMatchExpectations : CostOfLivingDataSource {

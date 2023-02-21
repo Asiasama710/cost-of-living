@@ -1,6 +1,7 @@
 package interactor
 
-import FakeData
+import fakeDataSource.FakeData
+import fakeDataSource.FakeDataGetCityThatMatchExpectations
 import interactor.util.Constants
 import model.*
 import org.junit.jupiter.api.Assertions
@@ -11,11 +12,11 @@ import kotlin.test.assertEquals
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetCityThatMatchManagerExpectationsInteractorTest {
     private lateinit var getCityThatMatchManagerExpectations: GetCityThatMatchManagerExpectationsInteractor
-    private lateinit var fakeData: FakeData
+    private lateinit var fakeData: FakeDataGetCityThatMatchExpectations
 
     @BeforeAll
      fun setUp() {
-        fakeData = FakeData()
+        fakeData = FakeDataGetCityThatMatchExpectations()
         getCityThatMatchManagerExpectations = GetCityThatMatchManagerExpectationsInteractor(fakeData)
     }
     @Test
