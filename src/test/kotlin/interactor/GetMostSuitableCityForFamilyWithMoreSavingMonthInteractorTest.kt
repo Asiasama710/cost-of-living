@@ -19,12 +19,11 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractorTest {
     }
 
     @Test
-    fun should_ReturnNull_When_ThereIsACityWithIncompleteData() {
+    fun should_ReturnThrowException_When_ThereIsACityWithIncompleteData() {
         // When
-        val result = getMostSuitableCityForFamilyWithMoreSavingMonth.execute()
-
-        // Then
-        assertNull(result)
+        val result  =  Executable { getMostSuitableCityForFamilyWithMoreSavingMonth.execute() }
+        //then
+        assertThrows( Exception::class.java ,result)
     }
     @Test
     @Disabled
@@ -41,16 +40,14 @@ class GetMostSuitableCityForFamilyWithMoreSavingMonthInteractorTest {
     }
 
     @Test
-    fun should_ReturnNull_When_DataLessThan0() {
+    fun should_ReturnThrowException_When_DataLessThan0() {
         // Given
         val expectedCity = fakeData.getAllCitiesData()[2]
 
         // When
-        val result = getMostSuitableCityForFamilyWithMoreSavingMonth.execute()
-
-        // Then
-
-        assertNull(result)
+        val result  =  Executable { getMostSuitableCityForFamilyWithMoreSavingMonth.execute() }
+        //then
+        assertThrows( Exception::class.java ,result)
     }
 
 

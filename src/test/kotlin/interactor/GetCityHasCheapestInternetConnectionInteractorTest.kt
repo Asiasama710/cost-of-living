@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.function.Executable
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetCityHasCheapestInternetConnectionInteractorTest {
@@ -60,27 +61,27 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
     }
 
     @Test
-    fun should_ReturnNull_When_HaveAIncorrectCountryName() {
+    fun should_ReturnThrowException_When_HaveAIncorrectCountryName() {
         //given Incorrect country name
         val countryName = "Garmany"
         //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        val result  =  Executable { getCityHasCheapestInternetConnection.execute(countryName) }
         //then
-        assertNull(result)
+        assertThrows( Exception::class.java ,result)
     }
 
     @Test
-    fun should_ReturnNull_When_HaveASpaceInMiddleOfCountryName() {
+    fun should_ReturnThrowException_When_HaveASpaceInMiddleOfCountryName() {
         //given Incorrect country name
         val countryName = "Garm     any"
         //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        val result  =  Executable { getCityHasCheapestInternetConnection.execute(countryName) }
         //then
-        assertNull(result)
+        assertThrows( Exception::class.java ,result)
     }
 
     @Test
-    fun should_ReturnNull_When_HaveAEmptyList() {
+    fun should_ReturnThrowException_When_HaveAEmptyList() {
         //given correct country name with empty data source
         val getCityHasCheapestInternetConnection =
             GetCityHasCheapestInternetConnectionInteractor(object : CostOfLivingDataSource {
@@ -90,30 +91,30 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
             })
         val countryName = "Germany"
         //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        val result  =  Executable { getCityHasCheapestInternetConnection.execute(countryName) }
         //then
-        assertNull(result)
+        assertThrows( Exception::class.java ,result)
     }
 
 
     @Test
-    fun should_ReturnNull_When_HaveACountryWithIncorrectDataInAllCities() {
+    fun should_ReturnThrowException_When_HaveACountryWithIncorrectDataInAllCities() {
         //given correct country name with all cities has incorrect data
         val countryName = "United Kingdom"
         //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        val result  =  Executable { getCityHasCheapestInternetConnection.execute(countryName) }
         //then
-        assertNull(result)
+        assertThrows( Exception::class.java ,result)
     }
 
     @Test
-    fun should_ReturnNull_When_HaveCountryNameThatNotExist() {
+    fun should_ReturnThrowException_When_HaveCountryNameThatNotExist() {
         //given correct country name
         val countryName = "France"
         //when get the city that have the cheapest internet
-        val result = getCityHasCheapestInternetConnection.execute(countryName)
+        val result  =  Executable { getCityHasCheapestInternetConnection.execute(countryName) }
         //then
-        assertNull(result)
+        assertThrows( Exception::class.java ,result)
     }
 
     companion object {
