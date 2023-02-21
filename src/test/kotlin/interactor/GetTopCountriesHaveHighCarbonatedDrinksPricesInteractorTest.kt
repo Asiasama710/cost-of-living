@@ -1,6 +1,6 @@
 package interactor
 
-import FakeData
+import fakeDataSource.FakeData
 import model.CityEntity
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -39,7 +39,9 @@ class GetTopCountriesHaveHighCarbonatedDrinksPricesInteractorTest {
         val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
         // Then
         assertEquals(emptyList<CityEntity>(), result)
+
     }
+
 
 
     @Test
@@ -53,5 +55,13 @@ class GetTopCountriesHaveHighCarbonatedDrinksPricesInteractorTest {
         if (getTop10CountriesWithHighTaxOnCarbonatedDrinks.any { it.second == null })
             AssertionError("Drink Price can't be Null")
     }
-
+    @Test
+    fun should_ReturnTrue_When_DataIsNotEmpty() {
+        //given
+        val limit=3
+        //when
+        val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
+        //Then return false if data is empty
+        assertTrue(result.isNotEmpty())
+    }
 }
