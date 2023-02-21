@@ -49,7 +49,7 @@ class GetCitiesAndYearsToBuyApartmentInteractorTest {
         val actualResult = getCitiesAndYearsToBuyApartment.execute(10)
 
         //Then
-        assertFalse( actualResult.any { it ==  mapOf("" to "1.2 year" )})
+        assertFalse( actualResult.any { it ==  mapOf(" " to "1.2 year" )})
         assertEquals( expectedResult , actualResult)
     }
 
