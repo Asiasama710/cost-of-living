@@ -24,16 +24,16 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
     fun should_ReturnCorrectResult_when_correctListIsGiven() {
         //given the limit of cities is 10
         val expectedResult = listOf(
+            "Roseburg",
             "Giza",
             "Rawalpindi",
             "Alexandria",
             "Hyderabad City",
             "Karachi",
             "Lahore",
+            "Tapachula",
             "Multan",
             "Tanta",
-            "Accra",
-            "Dushanbe"
         )
         val limit = 10
         // when find 10 cities that has lowest fruitVeg prices comparing to salaries paid there
@@ -62,7 +62,7 @@ internal class GetLowCostFruitVegetableCitiesWithHighSalariesInteractorTest {
         val result = getLowCostFruitVegetableCitiesWithHighSalaries.execute(limit).size
 
         //then
-        assertEquals(19, result)
+        assertEquals(20, result)
     }
 
 

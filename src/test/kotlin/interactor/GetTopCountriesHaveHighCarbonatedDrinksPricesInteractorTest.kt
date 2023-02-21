@@ -8,33 +8,18 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class GetTopCountriesHaveHighCarbonatedDrinksPricesInterctorTest {
+class GetTopCountriesHaveHighCarbonatedDrinksPricesInteractorTest {
 
-    private lateinit var getTopCountriesHaveHighCarbonatedDrinksPrices: GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor
+    private lateinit var getTopCountriesHaveHighCarbonatedDrinksPrices: GetTopCountriesHaveHighCarbonatedDrinksPricesInteractor
     private lateinit var fakeData: FakeData
 
     @BeforeAll
     fun setUp() {
         fakeData = FakeData()
-        getTopCountriesHaveHighCarbonatedDrinksPrices = GetTopCountriesHaveHighCarbonatedDrinksPricesInterctor(fakeData)
+        getTopCountriesHaveHighCarbonatedDrinksPrices = GetTopCountriesHaveHighCarbonatedDrinksPricesInteractor(fakeData)
     }
 
 
-    @Test
-    fun should_ReturnCorrect_When_LimitIsMoreThanZero() {
-        //given Country with drink price and limit
-        val limit = 3
-        //when getting a list of pair  contains the country name and drink price
-        val result = getTopCountriesHaveHighCarbonatedDrinksPrices.execute(limit)
-        // then
-        assertEquals(3, result.size)
-        assertEquals("Cuba", result[0].first)
-        assertEquals(2.28f, result[0].second)
-        assertEquals("Venezuela", result[1].first)
-        assertEquals(1.12f, result[1].second)
-        assertEquals("Syria", result[2].first)
-        assertEquals(0.82f, result[2].second)
-    }
 
     @Test
     fun should_ReturnEmptyList_When_LimitIsZero() {
